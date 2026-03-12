@@ -155,10 +155,22 @@ export function getSeverity(pct: number): AlertSeverity {
 
 const SUGGESTIONS: Partial<Record<keyof NutrientTargets, string>> = {
     calories_kcal: 'Try a nutritious snack like peanut butter on whole grain bread.',
-    protein_g: 'Add eggs, dal, paneer, or chicken to boost protein.',
-    iron_mg: 'Spinach, ragi, rajma, or jaggery can boost iron.',
-    calcium_mg: 'Milk, curd, paneer, or ragi are excellent calcium sources.',
-    fiber_g: 'Add fruits, vegetables, or whole grains to increase fiber.',
+    protein_g:    'Add eggs, dal, paneer, or chicken to boost protein.',
+    carbs_g:      'Include whole grains like oats, ragi, or brown rice for sustained energy.',
+    fat_g:        'Healthy fats from ghee, nuts, or avocado support brain development.',
+    iron_mg:      'Spinach, ragi, rajma, or jaggery can boost iron.',
+    calcium_mg:   'Milk, curd, paneer, or ragi are excellent calcium sources.',
+    fiber_g:      'Add fruits, vegetables, or whole grains to increase fiber.',
+};
+
+const OVER_SUGGESTIONS: Partial<Record<keyof NutrientTargets, string>> = {
+    calories_kcal: 'Daily calorie goal reached — balance with lighter meals.',
+    protein_g:     'Protein goal met — excess protein is excreted or stored as fat.',
+    carbs_g:       'Carb goal reached — choose fibre-rich options if eating more.',
+    fat_g:         'Fat goal met — prefer unsaturated fats for the rest of the day.',
+    iron_mg:       'Iron goal met — excess iron can cause discomfort.',
+    calcium_mg:    'Calcium goal reached — no need for additional supplementation.',
+    fiber_g:       'Fiber goal met — ensure adequate hydration.',
 };
 
 export interface NutrientStatus {
@@ -170,6 +182,7 @@ export interface NutrientStatus {
     severity: AlertSeverity;
     unit: string;
     suggestion?: string;
+    exceeded: boolean;
 }
 
 export function computeNutrientStatus(totals: FoodNutrients, targets: NutrientTargets): NutrientStatus[] {
@@ -186,6 +199,7 @@ export function computeNutrientStatus(totals: FoodNutrients, targets: NutrientTa
         const actual = (totals as unknown as Record<string, number>)[key] ?? 0;
         const target = (targets as unknown as Record<string, number>)[key] ?? 1;
         const pct = r2((actual / target) * 100);
+        const exceeded = pct >= 100;
         return {
             nutrient: key,
             label,
@@ -194,7 +208,8 @@ export function computeNutrientStatus(totals: FoodNutrients, targets: NutrientTa
             pct,
             severity: getSeverity(pct),
             unit,
-            suggestion: SUGGESTIONS[key],
+            suggestion: exceeded ? OVER_SUGGESTIONS[key] : SUGGESTIONS[key],
+            exceeded,
         };
     });
 }

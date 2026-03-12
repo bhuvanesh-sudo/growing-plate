@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
+import { Sunrise, Apple, Sun, Moon, type LucideIcon } from 'lucide-react';
 import { useChild } from '@/hooks/useChild';
 import { useTodayLog } from '@/hooks/useTodayLog';
 import { computeNutrientStatus, getOverallSeverity } from '@/lib/nutrition';
@@ -12,9 +13,18 @@ import AlertBanner from '@/components/AlertBanner';
 import MealSlot from '@/components/MealSlot';
 import FoodSearchModal from '@/components/FoodSearchModal';
 import type { MealType, Food } from '@/lib/types';
-import { MEAL_LABELS, MEAL_EMOJIS } from '@/lib/types';
+import { MEAL_LABELS } from '@/lib/types';
+import PageBackground from '@/components/PageBackground';
+
+const MEAL_ICONS: Record<MealType, LucideIcon> = {
+    breakfast: Sunrise,
+    snack:     Apple,
+    lunch:     Sun,
+    dinner:    Moon,
+};
 
 const MEAL_TYPES: MealType[] = ['breakfast', 'snack', 'lunch', 'dinner'];
+const SIZES = [180, 210, 240, 270, 300] as const;
 
 const STATUS_MESSAGES: Record<string, string> = {
     green: 'Looking great today! 🌟',
@@ -35,6 +45,9 @@ export default function TodayPage() {
     const { log, items, totals, addItem, removeItem, refetch, loading: logLoading } = useTodayLog(child?.id ?? null);
 
     const [activeMeal, setActiveMeal] = useState<MealType>('breakfast');
+    const [sizeIdx, setSizeIdx] = useState(2);
+    const plateSize = SIZES[sizeIdx];
+    const cardWidth = plateSize + 40; // p-5 = 20px each side
     const [modalOpen, setModalOpen] = useState(false);
 
     // Fetch on mount
@@ -84,10 +97,11 @@ export default function TodayPage() {
     }
 
     return (
-        <div className="px-4 py-6 md:px-8 md:py-8">
-            <div className="max-w-5xl mx-auto">
-                {/* ── Desktop two-column / Mobile single column ── */}
-                <div className="flex flex-col md:flex-row gap-6">
+        <>
+            <PageBackground page="today" />
+            <div className="relative z-10 px-3 py-4 md:px-5 md:py-6">
+            <div>
+                <div className="flex flex-col md:flex-row gap-4">
 
                     {/* ── Left column: Meal Logger ── */}
                     <div className="flex-1 flex flex-col gap-4">
@@ -103,59 +117,35 @@ export default function TodayPage() {
                         </div>
 
                         {/* Status banner */}
-                        <motion.div
-                            layout
-                            className="rounded-xl px-4 py-3 flex items-center gap-3"
-                            style={{ background: STATUS_BG[overallSeverity] + '20', border: `1.5px solid ${STATUS_BG[overallSeverity]}40` }}
-                        >
-                            <div
-                                className="w-3 h-3 rounded-full flex-shrink-0"
-                                style={{ background: STATUS_BG[overallSeverity] }}
-                            />
-                            <p className="text-sm font-black" style={{ color: 'var(--gp-text)' }}>
-                                {STATUS_MESSAGES[overallSeverity]}
-                            </p>
+                        <motion.div layout className="rounded-xl px-4 py-3 flex items-center gap-3"
+                            style={{ background: STATUS_BG[overallSeverity] + '20', border: `1.5px solid ${STATUS_BG[overallSeverity]}40` }}>
+                            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: STATUS_BG[overallSeverity] }} />
+                            <p className="text-sm font-black" style={{ color: 'var(--gp-text)' }}>{STATUS_MESSAGES[overallSeverity]}</p>
                         </motion.div>
 
                         {/* Offline banner */}
                         {typeof navigator !== 'undefined' && !navigator.onLine && (
-                            <div
-                                className="rounded-xl px-4 py-2 text-xs font-bold text-center"
-                                style={{ background: '#F5F0E8', color: 'var(--gp-muted)' }}
-                            >
+                            <div className="rounded-xl px-4 py-2 text-xs font-bold text-center"
+                                style={{ background: '#F5F0E8', color: 'var(--gp-muted)' }}>
                                 📴 You&apos;re offline. Changes will sync when reconnected.
                             </div>
                         )}
 
                         {/* Meal tabs */}
-                        <div
-                            className="flex rounded-xl p-1 gap-1"
-                            style={{ background: 'var(--gp-bg)', border: '1.5px solid var(--gp-border)' }}
-                        >
+                        <div className="flex rounded-xl p-1 gap-1"
+                            style={{ background: 'var(--gp-bg)', border: '1.5px solid var(--gp-border)' }}>
                             {MEAL_TYPES.map((m) => {
                                 const mealCount = items.filter((i) => i.meal_type === m).length;
-                                const isActive = m === activeMeal;
+                                const isActive  = m === activeMeal;
                                 return (
-                                    <button
-                                        key={m}
-                                        onClick={() => setActiveMeal(m)}
+                                    <button key={m} onClick={() => setActiveMeal(m)}
                                         className="flex-1 flex flex-col items-center gap-0.5 py-2 rounded-lg font-black text-xs transition-all relative"
-                                        style={{
-                                            background: isActive ? 'var(--gp-orange)' : 'transparent',
-                                            color: isActive ? '#FFFFFF' : 'var(--gp-muted)',
-                                        }}
-                                    >
-                                        <span>{MEAL_EMOJIS[m]}</span>
+                                        style={{ background: isActive ? 'var(--gp-orange)' : 'transparent', color: isActive ? '#FFFFFF' : 'var(--gp-muted)' }}>
+                                        {(() => { const Icon = MEAL_ICONS[m]; return <Icon size={16} strokeWidth={isActive ? 2.5 : 1.8} />; })()}
                                         <span className="hidden sm:block">{MEAL_LABELS[m]}</span>
                                         {mealCount > 0 && (
-                                            <span
-                                                className="absolute top-1 right-1 w-4 h-4 rounded-full text-xs flex items-center justify-center font-black"
-                                                style={{
-                                                    background: isActive ? '#FFFFFF' : 'var(--gp-orange)',
-                                                    color: isActive ? 'var(--gp-orange)' : '#FFFFFF',
-                                                    fontSize: '9px',
-                                                }}
-                                            >
+                                            <span className="absolute top-1 right-1 w-4 h-4 rounded-full text-xs flex items-center justify-center font-black"
+                                                style={{ background: isActive ? '#FFFFFF' : 'var(--gp-orange)', color: isActive ? 'var(--gp-orange)' : '#FFFFFF', fontSize: '9px' }}>
                                                 {mealCount}
                                             </span>
                                         )}
@@ -165,38 +155,26 @@ export default function TodayPage() {
                         </div>
 
                         {/* Meal card */}
-                        <div
-                            className="rounded-2xl p-4 border"
-                            style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)' }}
-                        >
-                            <h3 className="font-black mb-3" style={{ color: 'var(--gp-text)' }}>
-                                {MEAL_EMOJIS[activeMeal]} {MEAL_LABELS[activeMeal]}
+                        <div className="rounded-2xl p-4 border" style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)' }}>
+                            <h3 className="font-black mb-3 flex items-center gap-2" style={{ color: 'var(--gp-text)' }}>
+                                {(() => { const Icon = MEAL_ICONS[activeMeal]; return <Icon size={16} strokeWidth={2} />; })()}
+                                {MEAL_LABELS[activeMeal]}
                             </h3>
-
                             {logLoading ? (
                                 <div className="flex flex-col gap-2">
                                     {[...Array(2)].map((_, i) => <div key={i} className="skeleton h-14 rounded-xl" />)}
                                 </div>
                             ) : (
-                                <MealSlot
-                                    mealType={activeMeal}
-                                    childName={child.name}
+                                <MealSlot mealType={activeMeal} childName={child.name}
                                     items={mealItems as Parameters<typeof MealSlot>[0]['items']}
-                                    onAddFood={() => setModalOpen(true)}
-                                    onRemoveItem={removeItem}
-                                />
+                                    onAddFood={() => setModalOpen(true)} onRemoveItem={removeItem} />
                             )}
                         </div>
 
                         {/* Nutrient bars */}
                         {targets && (
-                            <div
-                                className="rounded-2xl p-4 border"
-                                style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)' }}
-                            >
-                                <h3 className="font-black mb-4" style={{ color: 'var(--gp-text)' }}>
-                                    Nutrition Progress
-                                </h3>
+                            <div className="rounded-2xl p-4 border" style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)' }}>
+                                <h3 className="font-black mb-4" style={{ color: 'var(--gp-text)' }}>Nutrition Progress</h3>
                                 <NutrientBars totals={totals} targets={targets} />
                             </div>
                         )}
@@ -205,20 +183,21 @@ export default function TodayPage() {
                         {statuses.length > 0 && <AlertBanner statuses={statuses} />}
                     </div>
 
-                    {/* ── Right column: Plate visualization (sticky on desktop) ── */}
-                    <div className="md:w-72 lg:w-80 flex flex-col gap-4">
-                        <div
-                            className="rounded-2xl p-5 border md:sticky md:top-8"
-                            style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)' }}
-                        >
-                            <h3 className="font-black mb-4" style={{ color: 'var(--gp-text)' }}>
-                                Today&apos;s Plate
-                            </h3>
+                    {/* ── Right column: Plate (sticky, width tracks plate size) ── */}
+                    <div className="flex flex-col gap-4 flex-shrink-0" style={{ width: cardWidth }}>
+                        <div className="rounded-2xl p-5 border md:sticky md:top-8"
+                            style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)', width: cardWidth, boxSizing: 'border-box' }}>
+                            <h3 className="font-black mb-4" style={{ color: 'var(--gp-text)' }}>Today&apos;s Plate</h3>
                             <PlateVisualization
                                 items={items.map((i) => ({
                                     food_group: i.food.food_group,
+                                    food_name: i.food?.name ?? '',
                                     calories_kcal: i.calories_kcal,
                                 }))}
+                                totals={totals}
+                                size={plateSize}
+                                sizeIdx={sizeIdx}
+                                onSizeChange={setSizeIdx}
                             />
                         </div>
                     </div>
@@ -234,5 +213,6 @@ export default function TodayPage() {
                 onAdd={handleAddFood}
             />
         </div>
+        </>
     );
 }

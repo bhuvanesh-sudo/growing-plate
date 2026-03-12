@@ -20,6 +20,7 @@ import { createClient } from '@/lib/supabase';
 import { useChild } from '@/hooks/useChild';
 import type { DailyLog, MealItem, Food, MealType } from '@/lib/types';
 import { MEAL_LABELS, MEAL_EMOJIS } from '@/lib/types';
+import PageBackground from '@/components/PageBackground';
 
 const STATUS_COLORS: Record<string, string> = {
     green: 'var(--gp-green)',
@@ -124,7 +125,9 @@ export default function CalendarPage() {
     const today = new Date();
 
     return (
-        <div className="px-4 py-6 md:px-8 md:py-8">
+        <>
+            <PageBackground page="calendar" />
+            <div className="relative z-10 px-4 py-6 md:px-8 md:py-8">
             <div className="max-w-lg mx-auto">
                 <h1 className="text-2xl font-black mb-6" style={{ color: 'var(--gp-text)' }}>
                     Calendar
@@ -342,6 +345,7 @@ export default function CalendarPage() {
                     )}
                 </AnimatePresence>
             </div>
-        </div>
+            </div>
+        </>
     );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, AlertTriangle, AlertCircle } from 'lucide-react';
+import { ChevronDown, ChevronUp, AlertTriangle, AlertCircle, CheckCircle2 } from 'lucide-react';
 import type { NutrientStatus } from '@/lib/nutrition';
 
 interface AlertBannerProps {
@@ -77,23 +77,32 @@ export default function AlertBanner({ statuses }: AlertBannerProps) {
                                 return (
                                     <div key={a.nutrient} className="flex flex-col gap-1">
                                         <div className="flex items-center gap-2">
-                                            <div
-                                                className="w-2 h-2 rounded-full"
-                                                style={{ background: c }}
-                                            />
+                                            <div className="w-2 h-2 rounded-full" style={{ background: c }} />
                                             <span className="text-sm font-black" style={{ color: 'var(--gp-text)' }}>
                                                 {a.label}
                                             </span>
-                                            <span className="text-xs font-bold ml-auto" style={{ color: c }}>
-                                                {a.pct}% of goal
-                                            </span>
+                                            {/* Goal status badge */}
+                                            {a.exceeded ? (
+                                                <span
+                                                    className="ml-auto text-xs font-black px-2 py-0.5 rounded-full flex items-center gap-1"
+                                                    style={{
+                                                        background: a.severity === 'green' ? '#E8F5EE' : '#FFF0EF',
+                                                        color: a.severity === 'green' ? '#4CAF7D' : c,
+                                                    }}
+                                                >
+                                                    {a.severity === 'green'
+                                                        ? <><CheckCircle2 size={11} /> Goal reached</>  
+                                                        : <><AlertCircle size={11} /> Over goal &bull; {a.pct}%</>}
+                                                </span>
+                                            ) : (
+                                                <span className="text-xs font-bold ml-auto" style={{ color: c }}>
+                                                    {a.pct}% of goal
+                                                </span>
+                                            )}
                                         </div>
                                         {a.suggestion && (
-                                            <p
-                                                className="text-xs font-bold pl-4"
-                                                style={{ color: 'var(--gp-muted)' }}
-                                            >
-                                                💡 {a.suggestion}
+                                            <p className="text-xs font-bold pl-4" style={{ color: 'var(--gp-muted)' }}>
+                                                {a.exceeded ? '⚠️' : '💡'} {a.suggestion}
                                             </p>
                                         )}
                                     </div>

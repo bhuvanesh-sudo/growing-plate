@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, CalendarDays, User } from 'lucide-react';
+import { Home, CalendarDays, User, Leaf, UtensilsCrossed } from 'lucide-react';
 
 const NAV_ITEMS = [
-    { href: '/today', label: 'Today', icon: Home },
+    { href: '/today',    label: 'Today',   icon: Home },
+    { href: '/menu',     label: 'Menu',    icon: UtensilsCrossed },
     { href: '/calendar', label: 'Calendar', icon: CalendarDays },
-    { href: '/profile', label: 'Profile', icon: User },
+    { href: '/profile',  label: 'Profile',  icon: User },
 ];
 
 export default function NavBar() {
@@ -42,11 +43,10 @@ export default function NavBar() {
                 style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)' }}
             >
                 {/* Logo */}
-                <div className="mb-6 px-2">
-                    <span className="text-2xl font-black" style={{ color: 'var(--gp-orange)' }}>
-                        🌱 GrowingPlate
-                    </span>
-                </div>
+                <div className="mb-6 px-2 flex items-center gap-2" style={{ color: 'var(--gp-orange)' }}>
+                        <Leaf size={20} strokeWidth={2.5} style={{ flexShrink: 0 }} />
+                        <span className="text-2xl font-black">GrowingPlate</span>
+                    </div>
 
                 {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
                     const active = pathname === href || pathname.startsWith(href + '/');

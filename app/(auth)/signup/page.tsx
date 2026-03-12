@@ -67,9 +67,20 @@ export default function SignupPage() {
             if (authError) throw authError;
             if (!authData.user) throw new Error('Signup failed — no user returned');
 
-            // The handle_new_user trigger creates profiles row.
-            // Small wait to ensure trigger fires:
-            await new Promise((r) => setTimeout(r, 500));
+            // Wait for the handle_new_user trigger to commit the profiles row
+            // before inserting children (which FKs to profiles.id).
+            // Poll up to 10 × 150ms = 1.5 s.
+            let profileReady = false;
+            for (let i = 0; i < 10; i++) {
+                await new Promise((r) => setTimeout(r, 150));
+                const { data: prof } = await supabase
+                    .from('profiles')
+                    .select('id')
+                    .eq('id', authData.user.id)
+                    .maybeSingle();
+                if (prof) { profileReady = true; break; }
+            }
+            if (!profileReady) throw new Error('Profile setup timed out. Please try again.');
 
             // Insert child
             const { error: childError } = await supabase.from('children').insert({

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, Utensils } from 'lucide-react';
 import type { MealType, MealItem, Food, FoodGroup } from '@/lib/types';
 import { GROUP_COLORS, GROUP_LABELS } from '@/lib/types';
 
@@ -53,7 +53,7 @@ export default function MealSlot({
                         className="flex flex-col items-center gap-3 py-8 rounded-xl"
                         style={{ background: 'var(--gp-bg)' }}
                     >
-                        <span className="text-4xl">🥣</span>
+                        <Utensils size={36} strokeWidth={1.5} style={{ color: 'var(--gp-border)' }} />
                         <p className="text-sm font-bold text-center" style={{ color: 'var(--gp-muted)' }}>
                             What did {childName} have for {MEAL_NAMES[mealType].toLowerCase()}?
                         </p>

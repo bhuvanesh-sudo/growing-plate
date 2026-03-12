@@ -11,6 +11,7 @@ import { useChild } from '@/hooks/useChild';
 import { toast } from 'sonner';
 import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import PageBackground from '@/components/PageBackground';
 
 const profileSchema = z.object({
     weight_kg: z.string().optional(),
@@ -107,7 +108,9 @@ export default function ProfilePage() {
     const activityLevel = watch('activity_level');
 
     return (
-        <div className="px-4 py-6 md:px-8 md:py-8">
+        <>
+            <PageBackground page="profile" />
+            <div className="relative z-10 px-4 py-6 md:px-8 md:py-8">
             <div className="max-w-lg mx-auto flex flex-col gap-5">
 
                 <div className="flex items-center justify-between">
@@ -280,6 +283,7 @@ export default function ProfilePage() {
                     </span>
                 </div>
             </div>
-        </div>
+            </div>
+        </>
     );
 }
