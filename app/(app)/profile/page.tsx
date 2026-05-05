@@ -120,7 +120,7 @@ export default function ProfilePage() {
                     <button
                         onClick={handleSignOut}
                         className="flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-xl transition-all hover:opacity-70"
-                        style={{ background: '#FFF0EF', color: 'var(--gp-red)' }}
+                        style={{ background: 'var(--gp-red-soft)', color: 'var(--gp-red)', boxShadow: 'inset 0 0 0 1.5px var(--gp-red)' }}
                     >
                         <LogOut size={14} />
                         Sign Out

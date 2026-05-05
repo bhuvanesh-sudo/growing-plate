@@ -4,66 +4,151 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ── GrowingPlate Design Tokens ── */
+/* ── GrowingPlate Design Tokens — Light ── */
 :root {
   /* Brand palette */
   --gp-bg:      #FBF7F0;
   --gp-card:    #FFFFFF;
-  --gp-border:  #EDE8DF;
-  --gp-text:    #2C2016;
+  --gp-card-elevated: #FFFDF9;
+  --gp-border:  #E8E1D6;
+  --gp-border-subtle: #F0EAE1;
+  --gp-text:    #1E1408;
+  --gp-text-secondary: #4A3828;
   --gp-muted:   #8C7B6B;
-  --gp-green:   #4CAF7D;
-  --gp-yellow:  #F5C842;
-  --gp-orange:  #F5874A;
-  --gp-red:     #E8504A;
+  --gp-green:   #3DA86D;
+  --gp-green-soft: #EAF7F0;
+  --gp-yellow:  #F0BE2A;
+  --gp-yellow-soft: #FEF9E7;
+  --gp-orange:  #F07A3A;
+  --gp-orange-soft: #FFF0E8;
+  --gp-red:     #E0443E;
+  --gp-red-soft: #FEECEB;
 
   /* Food group colors */
-  --gp-grains:  #F5C842;
-  --gp-protein: #E8504A;
-  --gp-veg:     #4CAF7D;
-  --gp-fruits:  #F5874A;
-  --gp-dairy:   #6BB8F5;
-  --gp-fats:    #B47FE8;
-  --gp-other:   #A0A0A0;
+  --gp-grains:  #F0BE2A;
+  --gp-protein: #E0443E;
+  --gp-veg:     #3DA86D;
+  --gp-fruits:  #F07A3A;
+  --gp-dairy:   #5AAEED;
+  --gp-fats:    #A870E0;
+  --gp-other:   #9A9A9A;
+
+  /* Shadows */
+  --gp-shadow-sm: 0 1px 3px rgba(44, 32, 22, 0.06), 0 1px 2px rgba(44, 32, 22, 0.04);
+  --gp-shadow-md: 0 4px 12px rgba(44, 32, 22, 0.08), 0 2px 4px rgba(44, 32, 22, 0.05);
+  --gp-shadow-lg: 0 8px 24px rgba(44, 32, 22, 0.10), 0 4px 8px rgba(44, 32, 22, 0.06);
 
   /* Map to shadcn tokens */
   --background: #FBF7F0;
-  --foreground: #2C2016;
+  --foreground: #1E1408;
   --card: #FFFFFF;
-  --card-foreground: #2C2016;
+  --card-foreground: #1E1408;
   --popover: #FFFFFF;
-  --popover-foreground: #2C2016;
-  --primary: #F5874A;
+  --popover-foreground: #1E1408;
+  --primary: #F07A3A;
   --primary-foreground: #FFFFFF;
-  --secondary: #EDE8DF;
-  --secondary-foreground: #2C2016;
+  --secondary: #F0EAE1;
+  --secondary-foreground: #1E1408;
   --muted: #F5F0E8;
   --muted-foreground: #8C7B6B;
-  --accent: #FFF3E8;
-  --accent-foreground: #F5874A;
-  --destructive: #E8504A;
+  --accent: #FFF0E8;
+  --accent-foreground: #F07A3A;
+  --destructive: #E0443E;
   --destructive-foreground: #FFFFFF;
-  --border: #EDE8DF;
+  --border: #E8E1D6;
   --input: #EDE8DF;
-  --ring: #F5874A;
+  --ring: #F07A3A;
   --radius: 0.75rem;
 
   /* Sidebar */
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #2C2016;
-  --sidebar-primary: #F5874A;
+  --sidebar-foreground: #1E1408;
+  --sidebar-primary: #F07A3A;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #FFF3E8;
-  --sidebar-accent-foreground: #F5874A;
-  --sidebar-border: #EDE8DF;
-  --sidebar-ring: #F5874A;
+  --sidebar-accent: #FFF0E8;
+  --sidebar-accent-foreground: #F07A3A;
+  --sidebar-border: #E8E1D6;
+  --sidebar-ring: #F07A3A;
 
-  /* Chart colors (map to food groups) */
-  --chart-1: #F5C842;
-  --chart-2: #E8504A;
-  --chart-3: #4CAF7D;
-  --chart-4: #F5874A;
-  --chart-5: #6BB8F5;
+  /* Chart colors */
+  --chart-1: #F0BE2A;
+  --chart-2: #E0443E;
+  --chart-3: #3DA86D;
+  --chart-4: #F07A3A;
+  --chart-5: #5AAEED;
+}
+
+/* ── GrowingPlate Design Tokens — Dark ── */
+.dark {
+  /* Brand palette */
+  --gp-bg:      #141210;
+  --gp-card:    #1E1B18;
+  --gp-card-elevated: #252219;
+  --gp-border:  #2E2A24;
+  --gp-border-subtle: #262220;
+  --gp-text:    #F5F0E8;
+  --gp-text-secondary: #D4C8B8;
+  --gp-muted:   #7A6E60;
+  --gp-green:   #4EC880;
+  --gp-green-soft: #0D2E1A;
+  --gp-yellow:  #F5C84A;
+  --gp-yellow-soft: #2A2208;
+  --gp-orange:  #F58C50;
+  --gp-orange-soft: #2A1A0E;
+  --gp-red:     #F0584A;
+  --gp-red-soft: #2E0E0C;
+
+  /* Food group colors (slightly brighter for dark bg) */
+  --gp-grains:  #F5C84A;
+  --gp-protein: #F0584A;
+  --gp-veg:     #4EC880;
+  --gp-fruits:  #F58C50;
+  --gp-dairy:   #6BBEF8;
+  --gp-fats:    #BC84F0;
+  --gp-other:   #8A8A8A;
+
+  /* Shadows (dark mode uses glow-style shadows) */
+  --gp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --gp-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --gp-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  /* Map to shadcn tokens */
+  --background: #141210;
+  --foreground: #F5F0E8;
+  --card: #1E1B18;
+  --card-foreground: #F5F0E8;
+  --popover: #252219;
+  --popover-foreground: #F5F0E8;
+  --primary: #F58C50;
+  --primary-foreground: #1E1408;
+  --secondary: #2E2A24;
+  --secondary-foreground: #F5F0E8;
+  --muted: #252219;
+  --muted-foreground: #7A6E60;
+  --accent: #2A1A0E;
+  --accent-foreground: #F58C50;
+  --destructive: #F0584A;
+  --destructive-foreground: #F5F0E8;
+  --border: #2E2A24;
+  --input: #2E2A24;
+  --ring: #F58C50;
+
+  /* Sidebar */
+  --sidebar: #1E1B18;
+  --sidebar-foreground: #F5F0E8;
+  --sidebar-primary: #F58C50;
+  --sidebar-primary-foreground: #1E1408;
+  --sidebar-accent: #2A1A0E;
+  --sidebar-accent-foreground: #F58C50;
+  --sidebar-border: #2E2A24;
+  --sidebar-ring: #F58C50;
+
+  /* Chart colors */
+  --chart-1: #F5C84A;
+  --chart-2: #F0584A;
+  --chart-3: #4EC880;
+  --chart-4: #F58C50;
+  --chart-5: #6BBEF8;
 }
 
 @theme inline {
@@ -116,6 +201,7 @@
     font-family: var(--font-nunito), sans-serif;
     font-weight: 600;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   h1, h2, h3, h4, h5, h6 {
     font-weight: 900;
@@ -130,19 +216,40 @@
 .severity-red    { background-color: var(--gp-red);    }
 
 .text-severity-green  { color: var(--gp-green);  }
-.text-severity-yellow { color: #D4A800; }
+.text-severity-yellow { color: var(--gp-yellow); }
 .text-severity-orange { color: var(--gp-orange); }
 .text-severity-red    { color: var(--gp-red);    }
 
-/* Skeleton pulse animation */
+/* ── Card elevation helpers ── */
+.gp-card {
+  background: var(--gp-card);
+  border: 1px solid var(--gp-border);
+  box-shadow: var(--gp-shadow-sm);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.gp-card-elevated {
+  background: var(--gp-card-elevated);
+  border: 1px solid var(--gp-border-subtle);
+  box-shadow: var(--gp-shadow-md);
+}
+
+/* ── Skeleton pulse animation ── */
 @keyframes skeletonPulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.4; }
 }
 .skeleton {
   border-radius: var(--radius-md);
-  background-color: #EDE8DF;
+  background-color: var(--gp-border);
   animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+/* ── Theme toggle transition ── */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
 }
 
 /* Bottom sheet slide-up on mobile */
@@ -157,4 +264,5 @@
 /* Scrollbar styling */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #EDE8DF; border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--gp-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gp-muted); }

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, CalendarDays, User, Leaf, UtensilsCrossed } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 const NAV_ITEMS = [
     { href: '/today',    label: 'Today',   icon: Home },
@@ -19,7 +20,11 @@ export default function NavBar() {
             {/* ── Mobile bottom bar ── */}
             <nav
                 className="fixed bottom-0 left-0 right-0 z-50 flex md:hidden border-t"
-                style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)' }}
+                style={{
+                    background: 'var(--gp-card)',
+                    borderColor: 'var(--gp-border)',
+                    boxShadow: '0 -2px 12px rgba(0,0,0,0.06)',
+                }}
             >
                 {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
                     const active = pathname === href || pathname.startsWith(href + '/');
@@ -40,13 +45,17 @@ export default function NavBar() {
             {/* ── Desktop left sidebar ── */}
             <aside
                 className="hidden md:flex fixed inset-y-0 left-0 z-50 w-56 flex-col border-r px-4 py-8 gap-2"
-                style={{ background: 'var(--gp-card)', borderColor: 'var(--gp-border)' }}
+                style={{
+                    background: 'var(--gp-card)',
+                    borderColor: 'var(--gp-border)',
+                    boxShadow: '2px 0 12px rgba(0,0,0,0.04)',
+                }}
             >
                 {/* Logo */}
                 <div className="mb-6 px-2 flex items-center gap-2" style={{ color: 'var(--gp-orange)' }}>
-                        <Leaf size={20} strokeWidth={2.5} style={{ flexShrink: 0 }} />
-                        <span className="text-2xl font-black">GrowingPlate</span>
-                    </div>
+                    <Leaf size={20} strokeWidth={2.5} style={{ flexShrink: 0 }} />
+                    <span className="text-2xl font-black">GrowingPlate</span>
+                </div>
 
                 {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
                     const active = pathname === href || pathname.startsWith(href + '/');
@@ -65,6 +74,11 @@ export default function NavBar() {
                         </Link>
                     );
                 })}
+
+                {/* Theme toggle pinned to bottom */}
+                <div className="mt-auto px-2">
+                    <ThemeToggle variant="pill" className="w-full justify-center" />
+                </div>
             </aside>
         </>
     );

@@ -294,8 +294,11 @@ export default function FoodSearchModal({
                                     >
                                         {/* Selected food header */}
                                         <div
-                                            className="flex items-center gap-3 rounded-xl p-4 border"
-                                            style={{ background: '#FFF3E8', borderColor: 'var(--gp-orange)' }}
+                                            className="flex items-center gap-3 rounded-xl p-4 border-2"
+                                            style={{
+                                                background: 'var(--gp-card-elevated)',
+                                                borderColor: 'var(--gp-orange)',
+                                            }}
                                         >
                                             <div
                                                 className="w-3 h-3 rounded-full flex-shrink-0"
