@@ -1,0 +1,23 @@
+# Backup keep-alive: pings Supabase directly, independent of Vercel.
+# Needs two repo secrets: SUPABASE_URL and SUPABASE_ANON_KEY.
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: '30 3 */2 * *'   # every 2 days, 09:00 IST
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping database
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          curl --fail-with-body -sS -X POST "$SUPABASE_URL/rest/v1/rpc/keepalive_ping" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}'
